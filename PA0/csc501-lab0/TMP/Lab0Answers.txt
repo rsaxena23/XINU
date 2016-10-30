@@ -1,0 +1,79 @@
+Answers:
+1.
+
+   0x0000                ---------------------------------
+                                 Text Segment
+   0x8976                --------------------------------- etext
+                                 Data Segment
+   0xa540                --------------------------------- edata
+                                 Bss Segment
+   0x10718              --------------------------------- end
+                                  
+   0xffdffc               --------------------------------- main stack limit
+                                   Stack Length: 4 KB
+   0xffefb0                 main stack pointer
+   0xffeff8               --------------------------------- main stack base
+
+   0xfff000              --------------------------------- prnull stack limit
+   0xffff3c                   prnull stack pointer
+   0xfffffc                --------------------------------- Process: prnull stack base
+   
+Memory is divided by compiler into four segments text, data, bss and free.
+ Etext, edata and end are used to locate the end of these segments.
+ As per printsegaddress() we have obtained certain addresses for these locations as
+ indicated in the diagram above. From printprocstks() we can obtain stack base,
+ stack pointer and stack limit values for processes and it can be observed that stack
+ goes to the last accessible memory location and with each push instruction it goes backwards in memory.
+
+2.
+  From the printtos() function the Previous top of stack address
+  obtained was 0xffefac and the current top of stack points to 0xffefc0.
+  Thus a difference of 20 bytes. The values present in the in the middle
+  of these two addresses comprises of the return address, storing the base pointer
+  value, parameter variables and local variables. There being no parameters, the content
+  present in chronology is return address, stack pointer base value of previous execution
+  and local variable values.
+
+
+3.
+The byte order adopted by the machine is little endian, in which the direction of
+ storage is from least significant byte to the most significant byte.
+ The byte order can be easily obtained by running the following sample code on the system:
+
+ int a=0x0a0b0c0d;
+unsigned char *p;
+p=&a;
+kprintf(“\n Loc1: %d   Loc2:%d     Loc3:%d     Loc4:%d    ”,*(p), *(p+1), *(p+2), *(p+3));
+
+The output is :  Loc1: 13   Loc2:12     Loc3:11     Loc4:10 , thus the last value of d=13 is stored first. 
+
+4.  
+Push - The push instruction is used to allocate memory on the stack and store some data.
+ With each successive push operation the pointer is decremented as stack operates in the backward
+ direction, ie, the base register is one more than the highest value that can be used by the
+ stack. Push followed by a value or register, will put the particular value at the top of stack.
+ 
+Pop - The pop instruction does the opposite that is it is used to remove memory stored from the
+ stack. On executing the pop command, the value from the top of stack is copied and sent to
+ another address and is altered and the stack pointer is then incremented, thus pointing at the
+ previous pushed stack value as the top of stack
+ 
+Pusha – The pusha instruction pushes the values of all of the general purpose registers which are
+ – eax, ecx, edx, ebx, esp, ebp, esi, edi – onto the stack.
+ 
+Popa – The popa instruction pops all the values of the general purpose registers and restores it to the
+values of that were stored before the last pusha.
+ 
+Mov - The mov operation is used to move a value from one place to another. IT can be a
+ value being a moved to a register or register value being copied into another one. The
+ syntax here is mov (from/value), to. It first fetches the instruction, followed by the data
+ at the location mentioned and then performs a push operation to copy the value. All these
+ operations are done under a single mov command.
+
+5.
+ In the printtos() task, the most recent pushed six stack values would contain the local
+ variable values, but are all zero in this case. On disabling code optimization these values
+ can then be viewed. Compiler inorder to optimise the code and execution may modify values,
+ lines of code and restructure saving of data. Thus, due to this process the local variable
+ values aren’t shown until optimization is disabled.
+

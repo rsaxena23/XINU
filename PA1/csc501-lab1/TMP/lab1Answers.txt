@@ -1,0 +1,39 @@
+1)XINU :
+
+  Advantages:
+1) Simple algorithm
+2) Low context switch
+3) Highest priority job executed first
+
+ Disadvantage:
+
+1)Starvation of low priority processes
+2) Non - interactive
+3) Long response time
+
+
+2) LINUX :
+
+ Advantage:
+1) Much better response time
+2) Highest priority job executed first in epoch
+3) Chances of Starvation low
+
+
+Disadvantage:
+
+1) High priority processes might have to wait before being given time to execute
+2) Context switches may occur although same process is executed
+3) Mimics a largest job first in most cases of dissimlar values of priority
+
+3) Real Time:
+
+Advantage:
+
+1) Allows for higher priority jobs to be executed before normal processes
+2) Round robin adds low response time
+
+Disadvantages:
+
+1) Flow maybe dependent on seed value
+2) If large amount of Real time processes present normal processes may execute later
